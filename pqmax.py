@@ -1,9 +1,11 @@
 class FilaPrioridadeMaxima:
-    def __init__(self):
+    def __init__(self, elementos=None):
         self.fila = []
+        if elementos:
+            for elem in elementos:
+                self.inserir(elem)
 
-    def _heapify_up(self, index):
-        # Função auxiliar para subir o elemento até sua posição correta
+    def _heapify_up(self, index):  # Função auxiliar para subir o elemento até sua posição correta
         while index > 0:
             pai = (index - 1) // 2
             if self.fila[index] > self.fila[pai]:
@@ -13,8 +15,7 @@ class FilaPrioridadeMaxima:
             else:
                 break
 
-    def _heapify_down(self, index):
-        # Função auxiliar para descer o elemento até sua posição correta
+    def _heapify_down(self, index):  # Função auxiliar para descer o elemento até sua posição correta
         size = len(self.fila)
         while 2 * index + 1 < size:  # Enquanto o nó tiver filhos
             filho_esquerdo = 2 * index + 1
@@ -33,14 +34,12 @@ class FilaPrioridadeMaxima:
             else:
                 break
 
-    def inserir(self, elemento):
-        # Adiciona o novo elemento ao final da fila
+    def inserir(self, elemento):  # Adiciona o novo elemento ao final da fila
         self.fila.append(elemento)
         # Mantém a propriedade de heap, subindo o elemento para a posição correta
         self._heapify_up(len(self.fila) - 1)
 
-    def remover_maximo(self):
-        # Remove e retorna o elemento de maior prioridade (primeiro da fila)
+    def remover_maximo(self):  # Remove e retorna o elemento de maior prioridade (primeiro da fila)
         if not self.fila:
             return None  # Retorna None se a fila estiver vazia
         if len(self.fila) == 1:
@@ -53,14 +52,12 @@ class FilaPrioridadeMaxima:
         self._heapify_down(0)
         return max_elem
 
-    def mostrar_maximo(self):
-        # Retorna o elemento de maior prioridade (o primeiro da lista)
+    def mostrar_maximo(self):  # Retorna o elemento de maior prioridade (o primeiro da lista)
         if self.fila:
             return self.fila[0]
         return None
 
-    def atualizar_prioridade(self, elemento_antigo, novo_elemento):
-        # Substitui um elemento e garante que a propriedade de heap seja mantida
+    def atualizar_prioridade(self, elemento_antigo, novo_elemento):  # Substitui um elemento e garante que a propriedade de heap seja mantida
         try:
             index = self.fila.index(elemento_antigo)
             self.fila[index] = novo_elemento
@@ -71,8 +68,7 @@ class FilaPrioridadeMaxima:
         except ValueError:
             return None
 
-    def remover_elemento(self, elemento):
-        # Remove um elemento específico e restaura a propriedade de heap
+    def remover_elemento(self, elemento):  # Remove um elemento específico e restaura a propriedade de heap
         try:
             index = self.fila.index(elemento)
             self.fila[index] = self.fila[-1]  # Substitui o elemento pelo último
@@ -84,42 +80,52 @@ class FilaPrioridadeMaxima:
         except ValueError:
             return None
 
-    def tamanho_fila(self):
-        # Retorna o número de elementos na fila
+    def tamanho_fila(self):  # Retorna o número de elementos na fila
         return len(self.fila)
 
-    def fila_vazia(self):
-        # Verifica se a fila está vazia
+    def fila_vazia(self):  # Verifica se a fila está vazia
         return len(self.fila) == 0
 
-    def limpar_fila(self):
-        # Limpa todos os elementos da fila
+    def limpar_fila(self):  # Limpa todos os elementos da fila
         self.fila = []
 
-# Testando a implementação
-fila = FilaPrioridadeMaxima()
-fila.inserir(10)
-fila.inserir(20)
-fila.inserir(5)
-fila.inserir(30)
+# Função para solicitar os números ao usuário
+def solicitar_numeros():
+    numeros = []
+    while True:
+        try:
+            entrada = input("Digite um número para inserir na fila (ou 'sair' para finalizar): ")
+            if entrada.lower() == 'sair':
+                break
+            numero = int(entrada)
+            numeros.append(numero)
+        except ValueError:
+            print("Por favor, insira um número válido ou 'sair' para finalizar.")
+    return numeros
 
-print("Máximo na fila:", fila.mostrar_maximo())  # Deve exibir 30
+# Solicita os números ao usuário
+numeros = solicitar_numeros()
+
+# Cria a fila e realiza as operações
+fila = FilaPrioridadeMaxima(numeros)
+
+print("\nMáximo na fila:", fila.mostrar_maximo())  # Exibe o maior número
 
 # Remover o elemento de maior prioridade
-print("Removendo o máximo:", fila.remover_maximo())  # Deve exibir 30
-print("Máximo após remoção:", fila.mostrar_maximo())  # Deve exibir 20
+print("Removendo o máximo:", fila.remover_maximo())  # Exibe o maior número removido
+print("Máximo após remoção:", fila.mostrar_maximo())  # Exibe o próximo maior número
 
 # Atualizar a prioridade de um elemento
 fila.atualizar_prioridade(5, 25)
-print("Máximo após atualização:", fila.mostrar_maximo())  # Deve exibir 25
+print("Máximo após atualização:", fila.mostrar_maximo())  # Exibe o novo máximo
 
 # Remover um elemento específico
 fila.remover_elemento(25)
 print("Fila após remoção de 25:", fila.fila)
 
 # Verificar se a fila está vazia
-print("Fila vazia?", fila.fila_vazia())  # Deve exibir False
+print("Fila vazia?", fila.fila_vazia())  # Exibe False
 
 # Limpar a fila
 fila.limpar_fila()
-print("Fila após limpar:", fila.fila)  # Deve exibir []
+print("Fila após limpar:", fila.fila)  # Exibe []
