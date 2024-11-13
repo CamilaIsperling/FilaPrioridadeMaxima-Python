@@ -13,7 +13,7 @@ class FilaPrioridadeMaxima:
             return None  # Retorna None se a fila estiver vazia
 
     def mostrar_fila(self):  # Exibe os elementos na fila
-        print("Fila de prioridade máxima:", self.fila)
+        print("\nFila de prioridade máxima:", self.fila)
 
     def solicitar_elementos(self):  # Solicita números ao usuário
         try:
@@ -31,6 +31,6 @@ fila_prioridade.solicitar_elementos()
 
 fila_prioridade.mostrar_fila()
 
-print("Elemento de prioridade máxima removido:", fila_prioridade.remover_maximo())
+print("\nElemento de prioridade máxima removido:", fila_prioridade.remover_maximo())
 print("Elemento de prioridade máxima removido:", fila_prioridade.remover_maximo())
 fila_prioridade.mostrar_fila()
